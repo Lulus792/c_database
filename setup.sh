@@ -1,0 +1,2 @@
+mkdir build
+gcc compile.c -o compile -Wall -Wextra -Werror -Wpedantic -pedantic -pedantic-errors
