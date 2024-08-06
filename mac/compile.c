@@ -1,14 +1,18 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <malloc.h>
+// #include <malloc.h>
 
-#define NUM_FLAGS                 4
+#define NUM_FLAGS                 8
 
 #define CMAKE_BUILD_FLAG_SHORT    "-b"
 #define CMAKE_BUILD_FLAG_LONG     "--build"
 #define RUN_MAIN_FLAG_SHORT       "-rm"
 #define RUN_MAIN_FLAG_LONG        "--run_main"
+#define CLEAN_BUILD_FLAG_SHORT    "-cb"
+#define CLEAN_BUILD_FLAG_LONG     "--clean_build"
+#define ONLY_CLEAN_FLAG_SHORT     "-oc"
+#define ONLY_CLEAN_FLAG_LONG      "--only_clean"
 
 #define EXECUTE_FILE              "./compile"
 #define MAIN_NAME                 "Database"
@@ -76,7 +80,7 @@ int get_compile_settings(program_info_t *settings, int *argc, char **argv) {
     return -1;
   }
 
-  for (unsigned int i = 1; i < abs(*argc); i++) {
+  for (unsigned int i = 1; i < (unsigned int)*argc; i++) {
     settings->flags[(i - 1)] = argv[i];
   }
   settings->flag_count = *argc - 1;
@@ -95,13 +99,30 @@ int is_flag_set(program_info_t *settings, char *flag) {
 int main(int argc, char **argv) {
   program_info_t *settings = malloc(sizeof(program_info_t));
   if (settings == NULL) {
-    fprintf(stderr, "Malloc Failed");
+    fprintf(stderr, "Malloc Failed\n");
     return -1;
   }
 
   if (get_compile_settings(settings, &argc, argv) != 0) {
     fprintf(stderr, "Failed to get settings\n");
     return -1;
+  }
+
+  if (is_flag_set(settings, ONLY_CLEAN_FLAG_SHORT) == 1 ||
+      is_flag_set(settings, ONLY_CLEAN_FLAG_LONG) == 1) {
+
+    char clean_build[strlen(settings->build_path) + 8];
+    sprintf(clean_build, "rm -rf %s*", settings->build_path);
+    system(clean_build);
+    return 0;
+  }
+
+  if (is_flag_set(settings, CLEAN_BUILD_FLAG_SHORT) == 1 ||
+      is_flag_set(settings, CLEAN_BUILD_FLAG_LONG) == 1) {
+
+    char clean_build[strlen(settings->build_path) + 8];
+    sprintf(clean_build, "rm -rf %s*", settings->build_path);
+    system(clean_build);
   }
 
   if (is_flag_set(settings, CMAKE_BUILD_FLAG_SHORT) == 1 ||
