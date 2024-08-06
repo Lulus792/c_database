@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 
 project(Database VERSION 1.0 LANGUAGES C)
 
-set(CMAKE_C_COMPILER "/usr/bin/gcc")
+set(CMAKE_C_COMPILER "/usr/bin/gcc-13")
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED True)
 
