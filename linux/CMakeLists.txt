@@ -25,11 +25,11 @@ endif()
 
 set(SOURCES
   src/main.c
-  src/mainWindow.c
+  src/main_window.c
 )
 
 set(HEADERS
-  src/mainWindow.h
+  src/main_window.h
   src/settings.h
 )
 

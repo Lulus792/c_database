@@ -1,4 +1,4 @@
-#include "mainWindow.h"
+#include "main_window.h"
 
 int main(void) {
   init_main_window();
